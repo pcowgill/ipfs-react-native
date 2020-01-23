@@ -1,6 +1,8 @@
 Note: This code was working with a modified version of `ipfs.cat` from the dep `ipfs-http-client`, which you won't be able to see in this repo.
 Once [this PR](https://github.com/ipfs/js-ipfs-http-client/pull/1224) is merged, a modified version of cat in `node_modules` no longer will be necessary for this to serve as a demo repo.
 
+See the `// New part` section in the code snippet below to see what was modified.
+
 ```js
 'use strict'
 
@@ -31,6 +33,7 @@ module.exports = configure(({ ky }) => {
       searchParams
     })
 
+    // ---
     // New part!!!
     if(!res.body){
       const out = Buffer.from(await res.arrayBuffer())
@@ -38,7 +41,10 @@ module.exports = configure(({ ky }) => {
       yield out
       return
     }
-    for await (const chunk of toIterable(res.body)) {
+    // End new part
+    // ---
+
+for await (const chunk of toIterable(res.body)) {
       yield Buffer.from(chunk)
     }
   }
